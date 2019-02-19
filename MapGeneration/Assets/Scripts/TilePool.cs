@@ -9,14 +9,13 @@ public class TilePool : MonoBehaviour {
     public Tile[] TileSet_GrassWoods;
     public Tile[] TileSet_SnowPlains;
 
-
     public Tile GrassTile;
     public Tile SnowTile;
     public Tile SandTile;
     public Tile DesertTile;
 
     public Tile IceTile; //Convert into array with different shades of ice
-    public Tile WaterTile; //Convert into array with different shades of ice
+    public Tile WaterTile; //Convert into array with different shades of water
 
     public Tile[] SnowMixTiles;
     public Tile[] GrassDustMixTiles;

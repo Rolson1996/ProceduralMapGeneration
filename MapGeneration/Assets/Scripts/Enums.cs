@@ -8,23 +8,3 @@ public enum MapType
     GrassPlains,
     SnowPlains
 }
-
-
-public enum Biomes
-{
-    Grass,
-    Snow,
-    Desert
-}
-
-
-public enum MapTypes
-{
-    Plains,
-    Forest,
-    Islands,
-    LargeIsland
-
-}
-
-
