@@ -1,6 +1,7 @@
 ﻿using Algorithms;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GenerationManager : MonoBehaviour {
@@ -37,6 +38,12 @@ public class GenerationManager : MonoBehaviour {
 	
     public void StartGenerationProcess()
     {
+        if (Height <= 0 || Width <= 0)
+        {
+            EditorUtility.DisplayDialog("Empty Map", "The height and/or width = 0", "Coolio");
+            return ;
+        }
+        
         GenerationMap.CreateEmptyMap();
 
 

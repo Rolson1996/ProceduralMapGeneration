@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{68935561-146A-092C-1CE2-388EF65D57EF}</ProjectGuid>
+    <ProjectGuid>{434E3D8E-2ABB-300B-A573-ACDC95FA0F1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -71,16 +71,16 @@
     <Compile Include="Assets\Scripts\TilePool.cs" />
     <Compile Include="Assets\TileScript.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/Documents/New Unity Project (2)/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>D:/SourceTree/FYP Unity Project/MapGeneration/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/Documents/New Unity Project (2)/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/SourceTree/FYP Unity Project/MapGeneration/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/Documents/New Unity Project (2)/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>D:/SourceTree/FYP Unity Project/MapGeneration/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Documents/New Unity Project (2)/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/SourceTree/FYP Unity Project/MapGeneration/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
