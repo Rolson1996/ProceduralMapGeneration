@@ -25,12 +25,12 @@ public class GameMap : MonoBehaviour
         if (MapDictionary.ContainsKey(_mapPoint))
         {
             MapDictionary[_mapPoint] = _tile;
-                
+
         }
         else
         {
             MapDictionary.Add(_mapPoint, _tile);
-                
+
         }
     }
 
@@ -56,5 +56,14 @@ public class GameMap : MonoBehaviour
         {
             GameTileMap.SetTile(new Vector3Int(entry.Key.x, entry.Key.y, 0), entry.Value);
         }
+    }
+
+    public Tile GetTileFromWorldPos(Vector3 mousePos)
+    {
+        Vector3Int coordinate = GameTileMap.LocalToCell(mousePos);
+        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {0}]", coordinate.x, coordinate.y));
+        GameTileMap.SetTile(coordinate, null);
+
+        return null;
     }
 }

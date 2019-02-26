@@ -54,6 +54,11 @@ public class GenerationManager : MonoBehaviour {
         GenerationMap.GenerateMap();
     }
 
+    public GameMap GetGameMap()
+    {
+        return GenerationMap;
+    }
+
 
     
 }

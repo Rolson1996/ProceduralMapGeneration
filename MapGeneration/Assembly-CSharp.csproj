@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\GameMap.cs" />
     <Compile Include="Assets\Scripts\GenerationManager.cs" />
     <Compile Include="Assets\Scripts\HandleUI.cs" />
+    <Compile Include="Assets\Scripts\MapClicks.cs" />
     <Compile Include="Assets\Scripts\MapPoint.cs" />
     <Compile Include="Assets\Scripts\OLD\CreateMapScript.cs" />
     <Compile Include="Assets\Scripts\TilePool.cs" />
