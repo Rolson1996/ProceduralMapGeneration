@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TilePool : MonoBehaviour {
+public class TilePool : MonoBehaviour
+{
 
     public Tile[] TileSet_GrassPlains;
     public Tile[] TileSet_GrassWoods;
@@ -50,5 +51,10 @@ public class TilePool : MonoBehaviour {
             default:
                 return (TileSet_GrassPlains);
         }
+    }
+
+    public Tile GetWaterTile()
+    {
+        return WaterTile;
     }
 }

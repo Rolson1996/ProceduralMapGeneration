@@ -51,6 +51,12 @@ public class GenerationManager : MonoBehaviour {
         rtm.GenerateRandomTileMap(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
 
 
+       
+
+        NoiseRiver nr = new NoiseRiver();
+        nr.BuildRiverFromMapEdge(new MapPoint(0,12), tilePool.GetWaterTile());
+
+
         GenerationMap.GenerateMap();
     }
 

@@ -22,15 +22,29 @@ public class GameMap : MonoBehaviour
 
     public void AddTile(Tile _tile, MapPoint _mapPoint)
     {
-        if (MapDictionary.ContainsKey(_mapPoint))
-        {
-            MapDictionary[_mapPoint] = _tile;
 
+        if (!(_mapPoint.x < 0 || _mapPoint.y < 0 || _mapPoint.x == GenerationManager.instance.Width - 1 || _mapPoint.y == GenerationManager.instance.Height - 1))
+        {
+            if (MapDictionary.ContainsKey(_mapPoint))
+            {
+                MapDictionary[_mapPoint] = _tile;
+            }
+            else
+            {
+                MapDictionary.Add(_mapPoint, _tile);
+            }
+        }
+    }
+
+    public Tile GetTileAtPos(MapPoint _point)
+    {
+        if(MapDictionary.ContainsKey(_point))
+        {
+            return MapDictionary[_point];
         }
         else
         {
-            MapDictionary.Add(_mapPoint, _tile);
-
+            return null;
         }
     }
 

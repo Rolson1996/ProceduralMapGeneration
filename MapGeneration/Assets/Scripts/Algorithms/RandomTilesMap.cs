@@ -7,13 +7,7 @@ using UnityEngine.Tilemaps;
 namespace Algorithms
 {
     class RandomTilesMap
-    {
-
-        public RandomTilesMap()
-        {
-
-        }
-
+    { 
         public void GenerateRandomTileMap(GameMap _map, Tile[] _tileSet)
         {
            
