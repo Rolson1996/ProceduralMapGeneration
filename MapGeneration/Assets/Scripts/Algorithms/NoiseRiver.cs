@@ -4,32 +4,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class NoiseRiver : MonoBehaviour
+public class NoiseRiver 
 {
     Tile WaterTile;
+
+    struct StartRiverMidMap
+    {
+        public MapPoint startPoint;
+        public int xDirection;
+        public int yDirection;
+        public int thickness;     
+    }
+
+
+
     public void BuildRiverFromMapEdge(MapPoint _point, Tile _waterTile)
     {
-
         WaterTile = _waterTile;
 
 
-        GenerateSineSection(_point, true);
+        StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, false);
 
-        //GenerateStraightSection(_point);
+        if (SineEndPoint != null)
+        {
+            GenerateStraightSection(SineEndPoint.Value.startPoint, null, SineEndPoint.Value.xDirection,SineEndPoint.Value.yDirection);
+        }
+
         
+        //GenerateStraightSection(_point);
+
     }
 
-    private MapPoint? GenerateSineSection(MapPoint _startPoint, bool _EndAtEdge)
+    private StartRiverMidMap? GenerateSineSection(MapPoint _startPoint, bool _EndAtEdge)
     {
-        float curveStrech = 2F;
-        float curveFrequency = 1F; //10 = about 1 up and down over 72 tiles (Tiny)
-
+        float curveStrech = 1.4F;
+        float curveFrequency = 10.6F; //10 = about 1 up and down over 72 tiles (Tiny)
 
         //randomPoint in Degrees
-        float randomPoint = 0; //start of wave
-        //float randomPoint = 35;
+        //float randomStartPoint = 0; //start of wave
+        float randomStartPoint = 21;
 
-        int thick = 0;
+        int thick = 2;
+
+        float randomCurveEndPercent = UnityEngine.Random.Range(0.4F,0.8F);
 
         GenerationManager.instance.GetGameMap().AddTile(WaterTile, _startPoint);
 
@@ -55,21 +72,21 @@ public class NoiseRiver : MonoBehaviour
         ApplyThicknessToRiver(currentPoint, thick, xDirection, yDirection);
         int progress = 1;
 
+
+        float locationTrack = Mathf.Abs((currentPoint.x * xDirection) + (currentPoint.y * yDirection));
+
         while (progress < GenerationManager.instance.Width)
         {
-            float pointInDegrees = ((currentPoint.x * 180) + randomPoint); //y = sin(x*180) each tile will be y = 1, 0 or -1
+            float pointInDegrees = (locationTrack + randomStartPoint); //y = sin(x)
             float pointInRadians = pointInDegrees * Mathf.Deg2Rad;
 
+            float hold = locationTrack;
 
-            float holdX = currentPoint.x;
+            //float holdSinX = Mathf.Sin(hold * Mathf.PI/2F);//pointInRadians / curveFrequency); //Mathf.sin uses Radians           
+            float holdSinX = Mathf.Sin(pointInDegrees / curveFrequency);//pointInRadians / curveFrequency); //Mathf.sin uses Radians           
+            int sineHeight = Mathf.RoundToInt(holdSinX * curveStrech); //SineHeight is Y in y = sin(x)
 
-            float hold = Mathf.Sin(holdX * Mathf.PI/2F);//pointInRadians / curveFrequency); //Mathf.sin uses Radians           
-            //float hold = Mathf.Sin(pointInRadians);//pointInRadians / curveFrequency); //Mathf.sin uses Radians           
-            int sineHeight = Mathf.RoundToInt(hold * curveStrech); //SineHeight is Y in y = sin(x)
-
-            
-
-            Debug.Log("X: " + currentPoint.x + "     Y: " + hold);
+            //Debug.Log("X: " + currentPoint.x + "     Y: " + hold);
 
             currentPoint.x = currentPoint.x + xDirection + (sineHeight * yDirection);
             currentPoint.y = currentPoint.y + yDirection + (sineHeight * xDirection);
@@ -77,14 +94,36 @@ public class NoiseRiver : MonoBehaviour
 
             ApplyThicknessToRiver(currentPoint, thick, xDirection, yDirection);
 
+            locationTrack = Mathf.Abs((currentPoint.x * xDirection) + (currentPoint.y * yDirection));
+
+
             progress++;
+            if (!_EndAtEdge)
+            {
+                if (progress >= (GenerationManager.instance.Width * randomCurveEndPercent))
+                {
+                    progress = int.MaxValue;
+                }
+            }                           
         }
 
+        if (_EndAtEdge)
+        {
+            return null;
+        }
+        else
+        {
+            StartRiverMidMap srmm = new StartRiverMidMap();
+            srmm.startPoint = currentPoint;
+            srmm.thickness = thick;
+            srmm.xDirection = xDirection;
+            srmm.yDirection = yDirection;
 
-        return null;
+            return srmm;
+        }
     }
 
-    private void GenerateStraightSection(MapPoint _startPoint, MapPoint? _endPoint = null)
+    private void GenerateStraightSection(MapPoint _startPoint, MapPoint? _endPoint = null, int _xDirection = 0, int _yDirection = 0)
     {
         int thick = 2;
 
@@ -92,40 +131,42 @@ public class NoiseRiver : MonoBehaviour
         GenerationManager.instance.GetGameMap().AddTile(WaterTile, _startPoint);
 
         MapPoint currentPoint = _startPoint;
-        int xDirection = 0;
-        int yDirection = 0;
+        int xDirection = _xDirection;
+        int yDirection = _yDirection;
+        if (xDirection == 0 && yDirection == 0)
+        {
+            if (_startPoint.x == 0)
+            {
+                xDirection = 1;
+            }
+            else if (_startPoint.x == GenerationManager.instance.Width)
+            {
+                xDirection = -1;
+            }
+            if (_startPoint.y == 0)
+            {
+                yDirection = 1;
+            }
+            else if (_startPoint.y == GenerationManager.instance.Height)
+            {
+                yDirection = -1;
+            }
+        }
 
-        if (_startPoint.x == 0)
-        {
-            xDirection = 1;
-        }
-        else if (_startPoint.x == GenerationManager.instance.Width)
-        {
-            xDirection = -1;
-        }
-        if (_startPoint.y == 0)
-        {
-            yDirection = 1;
-        }
-        else if (_startPoint.y == GenerationManager.instance.Height)
-        {
-            yDirection = -1;
-        }
-   
         ApplyThicknessToRiver(currentPoint, thick, xDirection, yDirection);
 
         bool generating = true;
 
         while (generating)
         {
-            float xCoord = currentPoint.x / (float)GenerationManager.instance.Width * seed;
-            float yCoord = (float)currentPoint.y / (float)GenerationManager.instance.Height * seed;
+            float xCoord = currentPoint.x / ((float)GenerationManager.instance.Width * 4)* seed;
+            float yCoord = (float)currentPoint.y / ((float)GenerationManager.instance.Height * 4)* seed;
             float test = Mathf.PerlinNoise(xCoord, yCoord);
-            Debug.Log(test);
+            //Debug.Log(test);
             float test2 = (test * 3F) - 1F;
             int change = Mathf.FloorToInt(test2);
 
-            Debug.Log(change);
+            //Debug.Log(change);
 
             currentPoint.x = currentPoint.x + xDirection + (change * yDirection);
             currentPoint.y = currentPoint.y + yDirection + (change * xDirection);
@@ -156,5 +197,10 @@ public class NoiseRiver : MonoBehaviour
             GenerationManager.instance.GetGameMap().AddTile(WaterTile, sideNeg);
         }
     }
-           
+
+
+    private void ApplyNoiseThicknessToRiver()
+    {
+
+    }
 }

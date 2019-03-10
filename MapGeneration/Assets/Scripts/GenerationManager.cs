@@ -46,16 +46,14 @@ public class GenerationManager : MonoBehaviour {
         
         GenerationMap.CreateEmptyMap();
 
+        NoiseGroundTiles ngt = new NoiseGroundTiles();
+        ngt.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
 
-        RandomTilesMap rtm = new RandomTilesMap();
-        rtm.GenerateRandomTileMap(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
-
-
-       
+        //RandomTilesMap rtm = new RandomTilesMap();
+        //rtm.GenerateRandomTileMap(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
 
         NoiseRiver nr = new NoiseRiver();
-        nr.BuildRiverFromMapEdge(new MapPoint(0,12), tilePool.GetWaterTile());
-
+        nr.BuildRiverFromMapEdge(new MapPoint(0,30), tilePool.GetWaterTile());
 
         GenerationMap.GenerateMap();
     }

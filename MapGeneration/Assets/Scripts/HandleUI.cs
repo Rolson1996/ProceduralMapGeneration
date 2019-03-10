@@ -5,27 +5,21 @@ using UnityEngine.UI;
 
 public class HandleUI : MonoBehaviour
 {
-
-    public GameObject HeightInput;
-    public GameObject WidthInput;
     public GameObject BiomeDropdownLabel;
-
-    private Text HeightText;
-    private Text WidthText;
     private Text BiomeText;
 
+    private int MapSize;
+
     void Start()
-    {
-        HeightText = HeightInput.GetComponent<Text>();
-        WidthText = WidthInput.GetComponent<Text>();
+    {   
         BiomeText = BiomeDropdownLabel.GetComponent<Text>();
     }
 
     public void GenerateButtonClick(GameObject _generatingText)
     {
         var test = Time.time;
-        int.TryParse(HeightText.text, out GenerationManager.instance.Height);
-        int.TryParse(WidthText.text, out GenerationManager.instance.Width);
+       GenerationManager.instance.Height = MapSize;
+       GenerationManager.instance.Width = MapSize;
 
         _generatingText.SetActive(true);
         Canvas.ForceUpdateCanvases();
@@ -51,5 +45,10 @@ public class HandleUI : MonoBehaviour
                 break;
         }
 
+    }
+
+    public void SetSize(int _size)
+    {
+        MapSize = _size;
     }
 }

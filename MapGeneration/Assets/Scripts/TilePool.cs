@@ -23,11 +23,11 @@ public class TilePool : MonoBehaviour
 
     void Awake()
     {
-        int GP_TileCount = 2 + GrassDustMixTiles.Length;
+        int GP_TileCount = 1 + GrassDustMixTiles.Length;
         TileSet_GrassPlains = new Tile[GP_TileCount];
         TileSet_GrassPlains[0] = GrassTile;
-        TileSet_GrassPlains[1] = GrassTile;
-        GrassDustMixTiles.CopyTo(TileSet_GrassPlains, 2);
+        //TileSet_GrassPlains[1] = GrassTile;
+        GrassDustMixTiles.CopyTo(TileSet_GrassPlains, 1);
 
 
         int SP_TileCount = 3 + SnowMixTiles.Length;
