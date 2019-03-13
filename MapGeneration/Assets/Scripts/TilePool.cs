@@ -57,4 +57,9 @@ public class TilePool : MonoBehaviour
     {
         return WaterTile;
     }
+
+    public Tile GetSandTile()
+    {
+        return SandTile;
+    }
 }

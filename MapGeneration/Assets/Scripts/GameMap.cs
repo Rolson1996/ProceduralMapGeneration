@@ -23,7 +23,7 @@ public class GameMap : MonoBehaviour
     public void AddTile(Tile _tile, MapPoint _mapPoint)
     {
 
-        if (!(_mapPoint.x < 0 || _mapPoint.y < 0 || _mapPoint.x == GenerationManager.instance.Width - 1 || _mapPoint.y == GenerationManager.instance.Height - 1))
+        if (!(_mapPoint.x < 0 || _mapPoint.y < 0 || _mapPoint.x >= GenerationManager.instance.Width || _mapPoint.y >= GenerationManager.instance.Height))
         {
             if (MapDictionary.ContainsKey(_mapPoint))
             {
@@ -61,6 +61,53 @@ public class GameMap : MonoBehaviour
                 MapDictionary.Add(new MapPoint(ix, iy), null);
             }
         }
+    }
+
+    public void ApplySandNextToWater()
+    {
+        List<MapPoint> tileToAddSand = new List<MapPoint>();
+        Tile water = GenerationManager.instance.tilePool.GetWaterTile();
+        Tile sand = GenerationManager.instance.tilePool.GetSandTile();
+
+        foreach (KeyValuePair<MapPoint, Tile> entry in MapDictionary)
+        {                      
+            if (entry.Value == water)
+            {
+                //123
+                //4X6
+                //789
+
+                int x = entry.Key.x;
+                int y = entry.Key.y;
+
+                MapPoint[] surrondingTiles = new MapPoint[8];
+                surrondingTiles[0] = new MapPoint(x - 1, y + 1);
+                surrondingTiles[1] = new MapPoint(x, y + 1);
+                surrondingTiles[2] = new MapPoint(x + 1, y + 1);
+                surrondingTiles[3] = new MapPoint(x - 1, y);
+                surrondingTiles[4] = new MapPoint(x + 1, y);
+                surrondingTiles[5] = new MapPoint(x - 1, y - 1);
+                surrondingTiles[6] = new MapPoint(x, y - 1);
+                surrondingTiles[7] = new MapPoint(x + 1, y - 1);
+
+                foreach (MapPoint mp in surrondingTiles)
+                {
+                    if (MapDictionary.ContainsKey(mp))
+                    {
+                        if (MapDictionary[mp] != water && MapDictionary[mp] != sand)
+                        {
+                            tileToAddSand.Add(mp);                           
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach(MapPoint mp in tileToAddSand)
+        {
+            MapDictionary[mp] = sand;
+        }
+
     }
 
     public void GenerateMap()

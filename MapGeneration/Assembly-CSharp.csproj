@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CameraMap.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\CreateBlob.cs" />
     <Compile Include="Assets\Scripts\Algorithms\NoiseGroundTiles.cs" />
     <Compile Include="Assets\Scripts\Algorithms\NoiseRiver.cs" />
     <Compile Include="Assets\Scripts\Algorithms\RandomTilesMap.cs" />
