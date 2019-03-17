@@ -60,7 +60,7 @@ public class GenerationManager : MonoBehaviour {
             return ;
         }
         
-        GenerationMap.CreateEmptyMap();
+        GenerationMap.CreateEmptyMap(Width);
 
         NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
 

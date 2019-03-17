@@ -48,10 +48,13 @@ public class GameMap : MonoBehaviour
         }
     }
 
-    public void CreateEmptyMap()
+    public void CreateEmptyMap(int _width)
     {
         MapDictionary.Clear();
         GameTileMap.ClearAllTiles();
+
+        int numTiles = _width * _width;
+        MapDictionary = new Dictionary<MapPoint, Tile>(numTiles);
 
         for (int iy = 0; iy < GenerationManager.instance.Height; iy++)
         {
