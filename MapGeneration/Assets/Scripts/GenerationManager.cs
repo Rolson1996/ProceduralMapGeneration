@@ -23,7 +23,7 @@ public class GenerationManager : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
 		if(instance == null)
         {

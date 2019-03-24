@@ -14,10 +14,13 @@ public class HandleUI : MonoBehaviour
 
     private int MapSize;
 
+    private MapClicks UIClicked;
+
     void Start()
     {   
         BiomeText = BiomeDropdownLabel.GetComponent<Text>();
         MapTypeText = MapTypeDropdownLabel.GetComponent<Text>();
+        UIClicked = GameObject.FindGameObjectWithTag("TileMap").GetComponent<MapClicks>();
     }
 
     public void GenerateButtonClick(GameObject _generatingText)
@@ -76,6 +79,8 @@ public class HandleUI : MonoBehaviour
                 break;
         }
 
+        UIClicked.CanvasClicked();
+
     }
 
     public void SelectMapType()
@@ -98,6 +103,7 @@ public class HandleUI : MonoBehaviour
                 
                 break;
         }
+        UIClicked.CanvasClicked();
     }
 
     public void SetSize(int _size)

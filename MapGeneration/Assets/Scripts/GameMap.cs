@@ -124,9 +124,15 @@ public class GameMap : MonoBehaviour
 
     public Tile GetTileFromWorldPos(Vector3 mousePos)
     {
-        Vector3Int coordinate = GameTileMap.LocalToCell(mousePos);
-        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {0}]", coordinate.x, coordinate.y));
-        GameTileMap.SetTile(coordinate, null);
+        //Vector3Int coordinate = GameTileMap.LocalToCell(mousePos);
+        //Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", coordinate.x, coordinate.z));
+        //Vector3Int correctCoord = new Vector3Int(coordinate.x, coordinate.z, 0);
+
+
+        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", Mathf.Floor(mousePos.x), Mathf.Floor(mousePos.z)));
+        Vector3Int correctCoord = new Vector3Int((int)Mathf.Floor(mousePos.x), (int)Mathf.Floor(mousePos.z), 0);
+
+        GameTileMap.SetTile(correctCoord, null);
 
         return null;
     }
