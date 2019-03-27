@@ -22,6 +22,9 @@ public class GenerationManager : MonoBehaviour {
     public MapType SelectedMapType = MapType.GrassPlains;
 
 
+    public ForestGenerator forestGenerator;
+
+
     // Use this for initialization
     void Awake ()
     {
@@ -32,6 +35,8 @@ public class GenerationManager : MonoBehaviour {
 
             GenerationMap = this.gameObject.AddComponent<GameMap>();
             GenerationMap.AttachMapGameObject();
+
+            forestGenerator = this.gameObject.GetComponent<ForestGenerator>();
         }
         else
         {
@@ -99,8 +104,9 @@ public class GenerationManager : MonoBehaviour {
 
             }
         }
-
-        
+        forestGenerator.DestroyOldTrees();
+        forestGenerator.AddTreeToMap(new MapPoint(10, 10));
+        forestGenerator.CreateTreeBlobAtPosition(GenerationMap, new MapPoint(24, 24), 2);
 
         GenerationMap.ApplySandNextToWater();
         GenerationMap.GenerateMap();
@@ -113,7 +119,7 @@ public class GenerationManager : MonoBehaviour {
 
     public void SetTopDownPos(float x, float y, float z)
     {
-        cam2.transform.position = new Vector3(x, y, z);
+        cam2.transform.localPosition = new Vector3(x, y, z);
     }
 
 

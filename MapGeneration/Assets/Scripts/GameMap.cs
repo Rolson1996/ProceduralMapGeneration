@@ -122,18 +122,13 @@ public class GameMap : MonoBehaviour
         }
     }
 
-    public Tile GetTileFromWorldPos(Vector3 mousePos)
+    public KeyValuePair<MapPoint, Tile> GetTileFromWorldPos(Vector3 mousePos)
     {
-        //Vector3Int coordinate = GameTileMap.LocalToCell(mousePos);
-        //Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", coordinate.x, coordinate.z));
-        //Vector3Int correctCoord = new Vector3Int(coordinate.x, coordinate.z, 0);
+        Vector3Int coordinate = GameTileMap.WorldToCell(mousePos);
+        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", coordinate.x, coordinate.z));
 
+        MapPoint point = new MapPoint(coordinate.x, coordinate.y);
 
-        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", Mathf.Floor(mousePos.x), Mathf.Floor(mousePos.z)));
-        Vector3Int correctCoord = new Vector3Int((int)Mathf.Floor(mousePos.x), (int)Mathf.Floor(mousePos.z), 0);
-
-        GameTileMap.SetTile(correctCoord, null);
-
-        return null;
+        return new KeyValuePair<MapPoint, Tile>(point, MapDictionary[point]);
     }
 }

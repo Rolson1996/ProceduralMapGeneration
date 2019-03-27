@@ -73,7 +73,6 @@ public class NoiseRiver
         //ApplyThicknessToRiver(currentPoint, thick, xDirection, yDirection);
         CreateNoiseBlob.CreateBlobAtPosition(map, currentPoint, thick, WaterTile);
 
-
         float locationTrack = Mathf.Abs((currentPoint.x * xDirection) + (currentPoint.y * yDirection));
 
         while (progress < GenerationManager.instance.Width)

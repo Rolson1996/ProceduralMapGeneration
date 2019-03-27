@@ -33,22 +33,22 @@ public class HandleUI : MonoBehaviour
         switch (MapSize)
         {
             case 72:
-                GenerationManager.instance.SetTopDownPos(27.6F, 54F, 29.5F);
+                GenerationManager.instance.SetTopDownPos(36F, 36.5F, 65F);
                 break;
             case 96:
-                GenerationManager.instance.SetTopDownPos(29.1F, 69F, 38.4F);
+                GenerationManager.instance.SetTopDownPos(47.7F, 48.3F, 85F);
                 break;
             case 120:
-                GenerationManager.instance.SetTopDownPos(36.4F, 87.6F, 48.1F);
+                GenerationManager.instance.SetTopDownPos(58.2F, 60F, 105F);
                 break;
             case 144:
-                GenerationManager.instance.SetTopDownPos(43.6F, 100.79F, 57.4F);
+                GenerationManager.instance.SetTopDownPos(69.3F, 72.4F, 130F);
                 break;
             case 200:
-                GenerationManager.instance.SetTopDownPos(58.8F, 142.5F, 80.7F);
+                GenerationManager.instance.SetTopDownPos(98.1F, 100F, 175F);
                 break;
             case 255:
-                GenerationManager.instance.SetTopDownPos(81.4F, 187.7F, 101.2F);
+                GenerationManager.instance.SetTopDownPos(123.3F, 126.5F, 225F);
                 break;
             default:
 
@@ -78,9 +78,6 @@ public class HandleUI : MonoBehaviour
                 GenerationManager.instance.SelectedMapType = MapType.GrassPlains;
                 break;
         }
-
-        UIClicked.CanvasClicked();
-
     }
 
     public void SelectMapType()
@@ -103,7 +100,6 @@ public class HandleUI : MonoBehaviour
                 
                 break;
         }
-        UIClicked.CanvasClicked();
     }
 
     public void SetSize(int _size)

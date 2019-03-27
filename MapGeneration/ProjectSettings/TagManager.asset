@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TileMap
   - EventSystem
+  - Canvas
   layers:
   - Default
   - TransparentFX
