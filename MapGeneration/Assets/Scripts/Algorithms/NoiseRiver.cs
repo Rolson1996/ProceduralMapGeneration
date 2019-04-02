@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 public class NoiseRiver 
 {
     static Tile WaterTile;
-    static Tile SandTile;
 
     private static GameMap map;
 
@@ -18,22 +17,50 @@ public class NoiseRiver
         public int yDirection;
         public int thickness;     
     }
-
-    public static void BuildRiverFromMapEdge(GameMap _map, MapPoint _point, Tile _waterTile, Tile _sandTile)
+    public static void AttachMap(GameMap _map, Tile _waterTile)
+    {
+        map = _map;
+        WaterTile = _waterTile;
+    }
+    public static void BuildRiverFromMapEdge(GameMap _map, MapPoint _point, Tile _waterTile)
     {
         map = _map;
 
         WaterTile = _waterTile;
-        SandTile = _sandTile;
 
-        StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, true);
-
-        //if (SineEndPoint != null)
-        //{
-        //    GenerateStraightSection(SineEndPoint.Value.startPoint, null, SineEndPoint.Value.xDirection,SineEndPoint.Value.yDirection);
-        //}    
+        int riverType = UnityEngine.Random.Range(0, 5);
         
-        //GenerateStraightSection(_point, false);
+        switch (riverType)
+        {
+            case 0: // Sine -> Edge
+                GenerateSineSection(_point, true);
+                Debug.Log("Sine -> Edge");
+                break;
+            case 1: // Sine -> Not Edge
+                GenerateSineSection(_point, false);
+                Debug.Log("Sine -> Not Edge");
+                break;
+            case 2: // Sine -> Straight
+                StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, true);
+                if (SineEndPoint != null)
+                {
+                    GenerateStraightSection(SineEndPoint.Value.startPoint, true, SineEndPoint.Value.xDirection, SineEndPoint.Value.yDirection);
+                }
+                Debug.Log("Sine -> Straight");
+                break;
+            case 3: // Straight -> Edge
+                GenerateStraightSection(_point, true);
+                Debug.Log("Straight -> Edge");
+                break;
+            case 4: // Straight -> Not Edge
+                Debug.Log("Straight -> Not Edge");
+                GenerateStraightSection(_point, false);
+                break; 
+            default: // Sine -> Edge
+                GenerateSineSection(_point, true);
+                Debug.Log("default:  Sine -> Edge");
+                break;
+        }
     }
 
     private static StartRiverMidMap? GenerateSineSection(MapPoint _startPoint, bool _endAtEdge = true)
@@ -43,7 +70,6 @@ public class NoiseRiver
         int randomCurveEnd = Mathf.FloorToInt(GenerationManager.instance.Width * UnityEngine.Random.Range(0.4F, 0.8F));
         float randomStartPoint = UnityEngine.Random.Range(-180, 180);
         int progress = 1;
-
 
         int thick = 2;
 
@@ -122,7 +148,7 @@ public class NoiseRiver
         }
     }
 
-    private static void GenerateStraightSection(MapPoint _startPoint, bool _endAtEdge = true, int _xDirection = 0, int _yDirection = 0)
+    public static void GenerateStraightSection(MapPoint _startPoint, bool _endAtEdge = true, int _xDirection = 0, int _yDirection = 0)
     {
         int thick = 3;
         int seed = UnityEngine.Random.Range(1000, 10000);
@@ -185,7 +211,7 @@ public class NoiseRiver
                     generating = false;
                 }
             }
-            else if (currentPoint.x < 0 || currentPoint.y < 0 || currentPoint.x == GenerationManager.instance.Width - 1 || currentPoint.y == GenerationManager.instance.Height - 1)
+            else if (currentPoint.x < 0 || currentPoint.y < 0 || currentPoint.x > GenerationManager.instance.Width - 1 || currentPoint.y > GenerationManager.instance.Height - 1)
             {
                 generating = false;
             }

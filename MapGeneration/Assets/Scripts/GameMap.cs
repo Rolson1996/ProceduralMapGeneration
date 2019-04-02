@@ -7,7 +7,16 @@ public class GameMap : MonoBehaviour
 {
 
     private Dictionary<MapPoint, Tile> MapDictionary = new Dictionary<MapPoint, Tile>();
+    private Dictionary<MapPoint, int> TreeDictionary = new Dictionary<MapPoint, int>();
     private Tilemap GameTileMap;
+
+    private ForestGenerator forestGenerator;
+
+    private Tile WaterTile;
+    private Tile SandTile;
+    private Tile RoadTile;
+
+    private int currentTrees = 0;
 
     // Use this for initialization
     void Start()
@@ -18,6 +27,18 @@ public class GameMap : MonoBehaviour
     public void AttachMapGameObject()
     {
         GameTileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<Tilemap>();
+    }
+
+    public void AttachForestGenerator(ForestGenerator _fg)
+    {
+        forestGenerator = _fg;
+    }
+
+    public void AttachTiles()
+    {
+        WaterTile = GenerationManager.instance.tilePool.GetWaterTile();
+        SandTile = GenerationManager.instance.tilePool.GetSandTile();
+        //RoadTile = _road;
     }
 
     public void AddTile(Tile _tile, MapPoint _mapPoint)
@@ -32,6 +53,22 @@ public class GameMap : MonoBehaviour
             else
             {
                 MapDictionary.Add(_mapPoint, _tile);
+            }
+        }
+    }
+    public void AddTree(int _tree, MapPoint _mapPoint)
+    {
+
+        if (!(_mapPoint.x < 0 || _mapPoint.y < 0 || _mapPoint.x >= GenerationManager.instance.Width || _mapPoint.y >= GenerationManager.instance.Height))
+        {
+            currentTrees++;
+            if (MapDictionary.ContainsKey(_mapPoint))
+            {
+                TreeDictionary[_mapPoint] = _tree;
+            }
+            else
+            {
+                TreeDictionary.Add(_mapPoint, _tree);
             }
         }
     }
@@ -51,30 +88,21 @@ public class GameMap : MonoBehaviour
     public void CreateEmptyMap(int _width)
     {
         MapDictionary.Clear();
+        TreeDictionary.Clear();
+ 
         GameTileMap.ClearAllTiles();
 
         int numTiles = _width * _width;
         MapDictionary = new Dictionary<MapPoint, Tile>(numTiles);
-
-        for (int iy = 0; iy < GenerationManager.instance.Height; iy++)
-        {
-            for (int ix = 0; ix < GenerationManager.instance.Width; ix++)
-            {
-                //MapPoint point = new MapPoint(ix, iy);
-                MapDictionary.Add(new MapPoint(ix, iy), null);
-            }
-        }
     }
 
     public void ApplySandNextToWater()
     {
         List<MapPoint> tileToAddSand = new List<MapPoint>();
-        Tile water = GenerationManager.instance.tilePool.GetWaterTile();
-        Tile sand = GenerationManager.instance.tilePool.GetSandTile();
-
+        
         foreach (KeyValuePair<MapPoint, Tile> entry in MapDictionary)
         {                      
-            if (entry.Value == water)
+            if (entry.Value == WaterTile)
             {
                 //123
                 //4X6
@@ -97,7 +125,7 @@ public class GameMap : MonoBehaviour
                 {
                     if (MapDictionary.ContainsKey(mp))
                     {
-                        if (MapDictionary[mp] != water && MapDictionary[mp] != sand)
+                        if (MapDictionary[mp] != WaterTile && MapDictionary[mp] != SandTile) //&& MapDictionary[mp] != RoadTile
                         {
                             tileToAddSand.Add(mp);                           
                         }
@@ -108,7 +136,7 @@ public class GameMap : MonoBehaviour
 
         foreach(MapPoint mp in tileToAddSand)
         {
-            MapDictionary[mp] = sand;
+            MapDictionary[mp] = SandTile;
         }
 
     }
@@ -119,6 +147,16 @@ public class GameMap : MonoBehaviour
         foreach (KeyValuePair<MapPoint, Tile> entry in MapDictionary)
         {
             GameTileMap.SetTile(new Vector3Int(entry.Key.x, entry.Key.y, 0), entry.Value);
+        }
+        foreach (KeyValuePair<MapPoint, int> entry in TreeDictionary)
+        {
+            if (MapDictionary.ContainsKey(entry.Key))
+            {
+                if (MapDictionary[entry.Key] != WaterTile && MapDictionary[entry.Key] != SandTile) //&& MapDictionary[mp] != RoadTile
+                {
+                    forestGenerator.AddTreeToMap(entry.Key);
+                }
+            }
         }
     }
 

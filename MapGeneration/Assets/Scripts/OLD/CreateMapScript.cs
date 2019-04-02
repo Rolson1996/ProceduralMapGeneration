@@ -22,7 +22,7 @@ public class CreateMapScript : MonoBehaviour
     public int MapHeight = 10;
 
     public TilePool tilePool;
-    public MapType SelectedMapType = MapType.GrassPlains;
+    public MapBiome SelectedMapType = MapBiome.Grass;
 
 
     // Use this for initialization

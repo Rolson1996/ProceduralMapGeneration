@@ -6,16 +6,21 @@ using UnityEngine;
 
 public class ForestGenerator : MonoBehaviour
 {
-
     public GameObject TreePrefab;
-    public Canvas canvas;
+    private int currentTree = 0;
 
     public void AddTreeToMap(MapPoint point)
     {
-        var newTree = Instantiate(TreePrefab, this.transform, false);
-        newTree.transform.localPosition = new Vector3(1.25F * (point.x + 1), 1.25F * (point.y + 1), -0.1F);
-        newTree.GetComponent<GameResource>().MapLocation = point;
-        newTree.GetComponent<GameResource>().canvas = canvas;
+        //var newTree = Instantiate(TreePrefab, this.transform, false);
+        //newTree.transform.localPosition = new Vector3(point.x + .25F, point.y + .25F, -1F);
+        //newTree.GetComponent<GameResource>().MapLocation = point;
+        if (currentTree < transform.childCount)
+        {
+            var t = transform.GetChild(currentTree);
+            t.localPosition = new Vector3(point.x + .25F, point.y + .25F, -1F);
+            t.GetComponent<GameResource>().MapLocation = point;
+            currentTree++;
+        }
     }
 
 
@@ -44,26 +49,59 @@ public class ForestGenerator : MonoBehaviour
         }
     }
 
+    public static void GenerateTreesForForest(GameMap _map)
+    {
+        //int numOfExtraTiles = _tileSet.Length - 1;
+        float scale = 10;
+        float seed = UnityEngine.Random.Range(1000, 10000);
+
+
+        for (int x = 0; x < GenerationManager.instance.Width; x++)
+        {
+            for (int y = 0; y < GenerationManager.instance.Height; y++)
+            {
+
+                float seededX = x + seed;
+                float seededY = y + seed;
+
+                var perlin = Mathf.PerlinNoise((seededX / (float)GenerationManager.instance.Width) * scale, (seededY / (float)GenerationManager.instance.Height) * scale);
+                if (perlin < .3f)
+                {
+                    _map.AddTree(0, new MapPoint(x, y));
+                }
+            }
+        }
+    }
+
     public void DestroyOldTrees()
     {
-        int i = 0;
-        Debug.Log(transform.childCount);
-        //Array to hold all child obj
-        GameObject[] allChildren = new GameObject[transform.childCount];
+        //int i = 0;
+        //Debug.Log(transform.childCount);
+        ////Array to hold all child obj
+        //GameObject[] allChildren = new GameObject[transform.childCount];
 
-        //Find all child obj and store to that array
+        ////Find all child obj and store to that array
+        //foreach (Transform child in transform)
+        //{
+        //    allChildren[i] = child.gameObject;
+        //    i += 1;
+        //}
+
+        ////Now destroy them
+        //foreach (GameObject child in allChildren)
+        //{
+        //    DestroyImmediate(child.gameObject);
+        //}
+
+
+        //Debug.Log(transform.childCount);
+
         foreach (Transform child in transform)
         {
-            allChildren[i] = child.gameObject;
-            i += 1;
+            child.localPosition = new Vector3 (-99F,-99F,-1F);
         }
 
-        //Now destroy them
-        foreach (GameObject child in allChildren)
-        {
-            DestroyImmediate(child.gameObject);
-        }
-        Debug.Log(transform.childCount);
+        currentTree = 0;
     }
 
 }

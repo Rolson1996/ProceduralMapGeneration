@@ -69,13 +69,13 @@ public class HandleUI : MonoBehaviour
         switch (BiomeText.text)
         {
             case "Grass":
-                GenerationManager.instance.SelectedMapType = MapType.GrassPlains;
+                GenerationManager.instance.SelectedMapBiome = MapBiome.Grass;
                 break;
             case "Snow":
-                GenerationManager.instance.SelectedMapType = MapType.SnowPlains;
+                GenerationManager.instance.SelectedMapBiome = MapBiome.Snow;
                 break;
             default:
-                GenerationManager.instance.SelectedMapType = MapType.GrassPlains;
+                GenerationManager.instance.SelectedMapBiome = MapBiome.Grass;
                 break;
         }
     }
@@ -85,19 +85,16 @@ public class HandleUI : MonoBehaviour
         switch (MapTypeText.text)
         {
             case "Plains":
-                
+                GenerationManager.instance.SelectedMapTypeX = MapTypeX.Plains;
                 break;
             case "Costal":
-               
+                GenerationManager.instance.SelectedMapTypeX = MapTypeX.Costal;
                 break;
             case "Islands":
-               
-                break;
-            case "Forest":
-               
+                GenerationManager.instance.SelectedMapTypeX = MapTypeX.Islands;
                 break;
             default:
-                
+                GenerationManager.instance.SelectedMapTypeX = MapTypeX.Plains;
                 break;
         }
     }

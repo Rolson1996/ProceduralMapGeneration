@@ -31,8 +31,14 @@ public class MapClicks : MonoBehaviour
         float yFactor = origin.z / direction.z;
 
         Vector3 test = origin - (direction * yFactor);
+        try
+        {
+            KeyValuePair<MapPoint, Tile> tile = GenerationManager.instance.GetGameMap().GetTileFromWorldPos(test);
+            displaySelected.Select(tile.Value.name, tile.Key.x, tile.Key.y, tile.Value.sprite);
+        }
+        catch
+        {
 
-        KeyValuePair<MapPoint, Tile> tile = GenerationManager.instance.GetGameMap().GetTileFromWorldPos(test);
-        displaySelected.Select(tile.Value.name, tile.Key.x, tile.Key.y, tile.Value.sprite);
+        }
     }
 }

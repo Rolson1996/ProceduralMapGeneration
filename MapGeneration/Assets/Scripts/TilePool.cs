@@ -40,13 +40,13 @@ public class TilePool : MonoBehaviour
 
     }
 
-    public Tile[] GetTileSetFromMapType(MapType mt)
+    public Tile[] GetTileSetFromMapType(MapBiome mt)
     {
         switch (mt)
         {
-            case MapType.GrassPlains:
+            case MapBiome.Grass:
                 return (TileSet_GrassPlains);
-            case MapType.SnowPlains:
+            case MapBiome.Snow:
                 return (TileSet_SnowPlains);
             default:
                 return (TileSet_GrassPlains);

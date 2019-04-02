@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 8371a52abf50dca49b4c5623e29abff0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Centaur MT
+  fontNames:
+  - Centaur MT
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 802c6398bdb08754da9857938cb7dd70, type: 3}
+  - {fileID: 12800000, guid: 3c732a9d15858a443bda6521334df8a3, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

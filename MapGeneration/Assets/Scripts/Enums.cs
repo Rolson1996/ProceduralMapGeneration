@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum MapType
+public enum MapBiome
 {
-    GrassPlains,
-    SnowPlains
+    Grass,
+    Snow
 }
+
+public enum MapTypeX
+{
+    Plains,
+    Costal,
+    Islands
+
+}
+

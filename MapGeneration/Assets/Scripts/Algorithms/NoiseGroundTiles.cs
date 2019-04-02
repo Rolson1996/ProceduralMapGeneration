@@ -8,7 +8,7 @@ public class NoiseGroundTiles
 	public static void GenerateGroundTiles(GameMap _map, Tile[] _tileSet)
     {
         int numOfExtraTiles = _tileSet.Length - 1;
-        float scale = 20;
+        float scale = 15;
         float seed = UnityEngine.Random.Range(1000, 10000);
 
 

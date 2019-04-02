@@ -19,11 +19,12 @@ public class GenerationManager : MonoBehaviour {
     private GameMap GenerationMap;
 
     public TilePool tilePool;
-    public MapType SelectedMapType = MapType.GrassPlains;
-
+    public MapBiome SelectedMapBiome = MapBiome.Grass;
+    public MapTypeX SelectedMapTypeX = MapTypeX.Plains;
 
     public ForestGenerator forestGenerator;
-
+    public DisplaySelected displaySelected;
+    public Canvas canvas;
 
     // Use this for initialization
     void Awake ()
@@ -37,10 +38,17 @@ public class GenerationManager : MonoBehaviour {
             GenerationMap.AttachMapGameObject();
 
             forestGenerator = this.gameObject.GetComponent<ForestGenerator>();
+            GenerationMap.AttachForestGenerator(forestGenerator);
+
+            GenerationMap.AttachTiles();
+
+            
+            displaySelected = canvas.GetComponent<DisplaySelected>();
         }
         else
         {
             instance.tilePool = this.gameObject.GetComponent<TilePool>();
+            instance.canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
             Destroy(this);
         }
 
@@ -64,49 +72,36 @@ public class GenerationManager : MonoBehaviour {
             EditorUtility.DisplayDialog("Empty Map", "The height and/or width = 0", "Coolio");
             return ;
         }
-        
-        GenerationMap.CreateEmptyMap(Width);
 
-        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
+        //Reset map
+        GenerationMap.CreateEmptyMap(Width);
+        forestGenerator.DestroyOldTrees();
+
+        switch (SelectedMapTypeX)
+        {
+            case MapTypeX.Plains:
+                GeneratePlains();
+                break;
+            case MapTypeX.Costal:
+                GenerateCostal();
+                break;
+            case MapTypeX.Islands:
+                GenerateIslands();
+                break;
+            default:
+                GeneratePlains();
+                break;
+        }
+
+
 
         //RandomTilesMap rtm = new RandomTilesMap();
         //rtm.GenerateRandomTileMap(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapType));
 
         //CreateNoiseBlob.CreateBlobAtPosition(GenerationMap, new MapPoint(30, 30),2, tilePool.GetWaterTile());
 
-        if (HasRivers)
-        {
-            int riverStartPoint = Mathf.FloorToInt(Width * UnityEngine.Random.Range(0.1F, 0.9F));
-
-            int startAxis = UnityEngine.Random.Range(0, 4);
-
-            switch (startAxis)
-            {
-                //X 2 X
-                //1 X 3
-                //X 4 X
-
-                case 0:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile(), tilePool.GetSandTile());
-                    break;
-                case 1:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile(), tilePool.GetSandTile());
-                    break;
-                case 2:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile(), tilePool.GetSandTile());
-                    break;
-                case 3:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile(), tilePool.GetSandTile());
-                    break;
-                default:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile(), tilePool.GetSandTile());
-                    break;
-
-            }
-        }
-        forestGenerator.DestroyOldTrees();
-        forestGenerator.AddTreeToMap(new MapPoint(10, 10));
-        forestGenerator.CreateTreeBlobAtPosition(GenerationMap, new MapPoint(24, 24), 2);
+        //forestGenerator.AddTreeToMap(new MapPoint(10, 10));
+        //forestGenerator.CreateTreeBlobAtPosition(GenerationMap, new MapPoint(24, 24), 2);
 
         GenerationMap.ApplySandNextToWater();
         GenerationMap.GenerateMap();
@@ -123,5 +118,83 @@ public class GenerationManager : MonoBehaviour {
     }
 
 
-    
+    private void GeneratePlains()
+    {
+        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome));
+        ForestGenerator.GenerateTreesForForest(GenerationMap);
+
+        //Creating Rivers
+        if (HasRivers)
+        {
+            int riverStartPoint = Mathf.FloorToInt(Width * UnityEngine.Random.Range(0.1F, 0.9F));
+
+            int startAxis = UnityEngine.Random.Range(0, 4);
+
+            switch (startAxis)
+            {
+                //X 2 X
+                //1 X 3
+                //X 4 X
+
+                case 0:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                    break;
+                case 1:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                    break;
+                case 2:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());
+                    break;
+                case 3:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                    break;
+                default:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                    break;
+
+            }
+        }
+    }
+    private void GenerateIslands()
+    {
+
+    }
+    private void GenerateCostal()
+    {
+        NoiseRiver.AttachMap(GenerationMap, tilePool.GetWaterTile());
+        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome));
+        ForestGenerator.GenerateTreesForForest(GenerationMap);
+
+
+        int coastLineSide = CoastLineGenerator.GenerateCoastline(GenerationMap, tilePool.GetWaterTile());
+        //X 0 X
+        //1 X 3
+        //X 2 X
+
+        if (HasRivers)
+        {
+            int riverStartPoint = Mathf.FloorToInt(Width * UnityEngine.Random.Range(0.1F, 0.9F));
+          
+            switch (coastLineSide)
+            {                
+                case 0:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), tilePool.GetWaterTile());                    
+                    break;
+                case 1:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                    break;
+                case 2:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                    break;
+                case 3:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());                   
+                    break;
+                default:
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), tilePool.GetWaterTile());
+                    break;
+
+            }
+        }
+
+    }
 }
