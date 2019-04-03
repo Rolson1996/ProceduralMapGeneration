@@ -30,12 +30,12 @@ public class TilePool : MonoBehaviour
         GrassDustMixTiles.CopyTo(TileSet_GrassPlains, 1);
 
 
-        int SP_TileCount = 3 + SnowMixTiles.Length;
+        int SP_TileCount = 1 + SnowMixTiles.Length;
         TileSet_SnowPlains = new Tile[SP_TileCount];
         TileSet_SnowPlains[0] = SnowTile;
-        TileSet_SnowPlains[1] = SnowTile;
-        TileSet_SnowPlains[2] = GrassTile;
-        SnowMixTiles.CopyTo(TileSet_SnowPlains, 3);
+        //TileSet_SnowPlains[1] = SnowTile;
+        //TileSet_SnowPlains[2] = GrassTile;
+        SnowMixTiles.CopyTo(TileSet_SnowPlains, 1);
 
 
     }

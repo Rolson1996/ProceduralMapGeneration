@@ -1,4 +1,5 @@
 ﻿using Algorithms;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -25,6 +26,7 @@ public class GenerationManager : MonoBehaviour {
     public ForestGenerator forestGenerator;
     public DisplaySelected displaySelected;
     public Canvas canvas;
+
 
     // Use this for initialization
     void Awake ()
@@ -126,38 +128,97 @@ public class GenerationManager : MonoBehaviour {
         //Creating Rivers
         if (HasRivers)
         {
-            int riverStartPoint = Mathf.FloorToInt(Width * UnityEngine.Random.Range(0.1F, 0.9F));
+            int numRivers = 0;
+            numRivers = UnityEngine.Random.Range(0, 4);
 
-            int startAxis = UnityEngine.Random.Range(0, 4);
-
-            switch (startAxis)
+            switch (Width)
             {
-                //X 2 X
-                //1 X 3
-                //X 4 X
-
-                case 0:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                case 72:
+                    numRivers = 1;
                     break;
-                case 1:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                case 96:
+                    numRivers = 1;
                     break;
-                case 2:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());
+                case 120:
+                    numRivers = UnityEngine.Random.Range(1, 3);
                     break;
-                case 3:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                case 144:
+                    numRivers = UnityEngine.Random.Range(1, 3);
                     break;
+                case 200:
+                    numRivers = UnityEngine.Random.Range(2, 4);
+                    break;
+                //case 255:
+                //    DifferentSizeIslands.GenerateGiganticIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                //    break;
                 default:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
                     break;
-
             }
+
+            int r = 0;
+            while(r < numRivers)
+            {
+            
+                int riverStartPoint = Mathf.FloorToInt(Width * UnityEngine.Random.Range(0.1F, 0.9F));
+
+                int startAxis = UnityEngine.Random.Range(0, 4);
+
+                switch (startAxis)
+                {
+                    //X 2 X
+                    //1 X 3
+                    //X 4 X
+
+                    case 0:
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                        break;
+                    case 1:
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                        break;
+                    case 2:
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());
+                        break;
+                    case 3:
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                        break;
+                    default:
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                        break;
+
+                }
+                r++;
+            }
+            
         }
     }
     private void GenerateIslands()
-    {
-
+    {       
+        switch (Width)
+        {
+            case 72:
+                DifferentSizeIslands.GenerateTinyIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                break;
+            case 96:
+                DifferentSizeIslands.GenerateSmallIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                break;
+            case 120:
+                DifferentSizeIslands.GenerateMediumIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                break;
+            case 144:
+                DifferentSizeIslands.GenerateLargeIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                break;
+            case 200:
+                DifferentSizeIslands.GenerateHugeIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+                break;
+            //case 255:
+            //    DifferentSizeIslands.GenerateGiganticIslands(GenerationMap, tilePool.GetTileSetFromMapType(SelectedMapBiome)[0]);
+            //    break;
+            default:
+                break;
+        }
+       
+        ForestGenerator.GenerateTreesForForest(GenerationMap);
+        GenerationMap.FillEmptySpaceWithTile(tilePool.GetWaterTile());
     }
     private void GenerateCostal()
     {
@@ -197,4 +258,6 @@ public class GenerationManager : MonoBehaviour {
         }
 
     }
+
+    
 }

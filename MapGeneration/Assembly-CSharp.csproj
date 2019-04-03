@@ -66,8 +66,10 @@
     <Compile Include="Assets\Scripts\Algorithms\CreateBlob.cs" />
     <Compile Include="Assets\Scripts\Algorithms\ForestGenerator.cs" />
     <Compile Include="Assets\Scripts\Algorithms\NoiseGroundTiles.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\NoiseIslands.cs" />
     <Compile Include="Assets\Scripts\Algorithms\NoiseRiver.cs" />
     <Compile Include="Assets\Scripts\Algorithms\RandomTilesMap.cs" />
+    <Compile Include="Assets\Scripts\DifferentSizeIslands.cs" />
     <Compile Include="Assets\Scripts\DisplaySelected.cs" />
     <Compile Include="Assets\Scripts\Enums.cs" />
     <Compile Include="Assets\Scripts\GameMap.cs" />

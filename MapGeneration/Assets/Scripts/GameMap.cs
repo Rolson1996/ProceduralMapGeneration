@@ -169,4 +169,27 @@ public class GameMap : MonoBehaviour
 
         return new KeyValuePair<MapPoint, Tile>(point, MapDictionary[point]);
     }
+
+    public void FillEmptySpaceWithTile(Tile _tile)
+    {
+        for (int iy = 0; iy < GenerationManager.instance.Height; iy++)
+        {
+            for (int ix = 0; ix < GenerationManager.instance.Width; ix++)
+            {
+                //MapPoint point = new MapPoint(ix, iy);
+                MapPoint mp = new MapPoint(ix, iy);
+                if (MapDictionary.ContainsKey(mp))
+                {
+                    if (MapDictionary[mp] == null) //&& MapDictionary[mp] != RoadTile
+                    {
+                        MapDictionary.Add(mp, _tile);
+                    }
+                }
+                else
+                {
+                    MapDictionary.Add(mp, _tile);
+                }             
+            }
+        }
+    }
 }
