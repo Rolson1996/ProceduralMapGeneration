@@ -34,11 +34,11 @@ public class NoiseRiver
         {
             case 0: // Sine -> Edge
                 GenerateSineSection(_point, true);
-                Debug.Log("Sine -> Edge");
+                //Debug.Log("Sine -> Edge");
                 break;
             case 1: // Sine -> Not Edge
                 GenerateSineSection(_point, false);
-                Debug.Log("Sine -> Not Edge");
+                //Debug.Log("Sine -> Not Edge");
                 break;
             case 2: // Sine -> Straight
                 StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, true);
@@ -46,19 +46,19 @@ public class NoiseRiver
                 {
                     GenerateStraightSection(SineEndPoint.Value.startPoint, true, SineEndPoint.Value.xDirection, SineEndPoint.Value.yDirection);
                 }
-                Debug.Log("Sine -> Straight");
+               // Debug.Log("Sine -> Straight");
                 break;
             case 3: // Straight -> Edge
                 GenerateStraightSection(_point, true);
-                Debug.Log("Straight -> Edge");
+                //Debug.Log("Straight -> Edge");
                 break;
             case 4: // Straight -> Not Edge
-                Debug.Log("Straight -> Not Edge");
+                //Debug.Log("Straight -> Not Edge");
                 GenerateStraightSection(_point, false);
                 break; 
             default: // Sine -> Edge
                 GenerateSineSection(_point, true);
-                Debug.Log("default:  Sine -> Edge");
+                //Debug.Log("default:  Sine -> Edge");
                 break;
         }
     }

@@ -15,6 +15,7 @@ public class GameMap : MonoBehaviour
     private Tile WaterTile;
     private Tile SandTile;
     private Tile RoadTile;
+    private Tile ShallowsTile;
 
     private int currentTrees = 0;
 
@@ -38,7 +39,8 @@ public class GameMap : MonoBehaviour
     {
         WaterTile = GenerationManager.instance.tilePool.GetWaterTile();
         SandTile = GenerationManager.instance.tilePool.GetSandTile();
-        //RoadTile = _road;
+        RoadTile = GenerationManager.instance.tilePool.GetRoadTile();
+        ShallowsTile = GenerationManager.instance.tilePool.GetShallowsTile();
     }
 
     public void AddTile(Tile _tile, MapPoint _mapPoint)
@@ -58,7 +60,6 @@ public class GameMap : MonoBehaviour
     }
     public void AddTree(int _tree, MapPoint _mapPoint)
     {
-
         if (!(_mapPoint.x < 0 || _mapPoint.y < 0 || _mapPoint.x >= GenerationManager.instance.Width || _mapPoint.y >= GenerationManager.instance.Height))
         {
             currentTrees++;
@@ -82,6 +83,18 @@ public class GameMap : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    public bool DoesTileContainTree(MapPoint _point)
+    {
+        if (TreeDictionary.ContainsKey(_point))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -125,7 +138,7 @@ public class GameMap : MonoBehaviour
                 {
                     if (MapDictionary.ContainsKey(mp))
                     {
-                        if (MapDictionary[mp] != WaterTile && MapDictionary[mp] != SandTile) //&& MapDictionary[mp] != RoadTile
+                        if (MapDictionary[mp] != WaterTile && MapDictionary[mp] != SandTile && MapDictionary[mp] != RoadTile &&  MapDictionary[mp] != ShallowsTile)
                         {
                             tileToAddSand.Add(mp);                           
                         }
@@ -152,7 +165,7 @@ public class GameMap : MonoBehaviour
         {
             if (MapDictionary.ContainsKey(entry.Key))
             {
-                if (MapDictionary[entry.Key] != WaterTile && MapDictionary[entry.Key] != SandTile) //&& MapDictionary[mp] != RoadTile
+                if (MapDictionary[entry.Key] != WaterTile && MapDictionary[entry.Key] != SandTile && MapDictionary[entry.Key] != RoadTile && MapDictionary[entry.Key] != ShallowsTile)
                 {
                     forestGenerator.AddTreeToMap(entry.Key);
                 }
@@ -163,7 +176,7 @@ public class GameMap : MonoBehaviour
     public KeyValuePair<MapPoint, Tile> GetTileFromWorldPos(Vector3 mousePos)
     {
         Vector3Int coordinate = GameTileMap.WorldToCell(mousePos);
-        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", coordinate.x, coordinate.z));
+        Debug.Log(string.Format("Map Co-ords [X: {0} Y: {1}]", coordinate.x, coordinate.y));
 
         MapPoint point = new MapPoint(coordinate.x, coordinate.y);
 

@@ -51,7 +51,7 @@ public class CreateMapScript : MonoBehaviour
         }
 
 
-        GeneratePlains(tilePool.GetTileSetFromMapType(SelectedMapType));
+        GeneratePlains(tilePool.GetTileSetFromBiomeType(SelectedMapType));
 
 
         //System.Random rnd = new System.Random();

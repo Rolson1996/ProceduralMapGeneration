@@ -21,6 +21,9 @@ public class TilePool : MonoBehaviour
     public Tile[] SnowMixTiles;
     public Tile[] GrassDustMixTiles;
 
+    public Tile RoadTile;
+    public Tile ShallowsTile;
+
     void Awake()
     {
         int GP_TileCount = 1 + GrassDustMixTiles.Length;
@@ -40,7 +43,7 @@ public class TilePool : MonoBehaviour
 
     }
 
-    public Tile[] GetTileSetFromMapType(MapBiome mt)
+    public Tile[] GetTileSetFromBiomeType(MapBiome mt)
     {
         switch (mt)
         {
@@ -61,5 +64,15 @@ public class TilePool : MonoBehaviour
     public Tile GetSandTile()
     {
         return SandTile;
+    }
+
+    public Tile GetRoadTile()
+    {
+        return RoadTile;
+    }
+
+    public Tile GetShallowsTile()
+    {
+        return ShallowsTile;
     }
 }
