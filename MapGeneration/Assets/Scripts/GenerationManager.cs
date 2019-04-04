@@ -150,7 +150,7 @@ public class GenerationManager : MonoBehaviour {
     private void GeneratePlains()
     {
         NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome));
-        //ForestGenerator.GenerateTreesForForest(GenerationMap);
+        ForestGenerator.GenerateTreesForForest(GenerationMap);
 
         //Creating Rivers
         if (HasRivers)
