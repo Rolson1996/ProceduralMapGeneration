@@ -37,10 +37,10 @@ public class GameMap : MonoBehaviour
 
     public void AttachTiles()
     {
-        WaterTile = GenerationManager.instance.tilePool.GetWaterTile();
-        SandTile = GenerationManager.instance.tilePool.GetSandTile();
-        RoadTile = GenerationManager.instance.tilePool.GetRoadTile();
-        ShallowsTile = GenerationManager.instance.tilePool.GetShallowsTile();
+        WaterTile = GenerationManager.instance.GetCurrentBiomeTileSet().Water;
+        SandTile = GenerationManager.instance.GetCurrentBiomeTileSet().Sand;
+        RoadTile = GenerationManager.instance.GetCurrentBiomeTileSet().Road;
+        ShallowsTile = GenerationManager.instance.GetCurrentBiomeTileSet().Shallows;
     }
 
     public void AddTile(Tile _tile, MapPoint _mapPoint)

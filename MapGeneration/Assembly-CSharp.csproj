@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Algorithms\NoiseIslands.cs" />
     <Compile Include="Assets\Scripts\Algorithms\NoiseRiver.cs" />
     <Compile Include="Assets\Scripts\Algorithms\RandomTilesMap.cs" />
+    <Compile Include="Assets\Scripts\BiomeTileSet.cs" />
     <Compile Include="Assets\Scripts\CSVToMap.cs" />
     <Compile Include="Assets\Scripts\DifferentSizeIslands.cs" />
     <Compile Include="Assets\Scripts\DisplaySelected.cs" />

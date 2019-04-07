@@ -49,7 +49,7 @@ public class GenerationManager : MonoBehaviour {
             GenerationMap.AttachTiles();
 
             CreatePaths.AttachMap(GenerationMap);
-            CreatePaths.AttachTiles(tilePool.GetRoadTile(), tilePool.GetShallowsTile(), tilePool.GetWaterTile());
+            CreatePaths.AttachTiles(GetCurrentBiomeTileSet().Road, GetCurrentBiomeTileSet().Shallows, GetCurrentBiomeTileSet().Water);
 
             displaySelected = canvas.GetComponent<DisplaySelected>();
         }
@@ -99,6 +99,8 @@ public class GenerationManager : MonoBehaviour {
             EditorUtility.DisplayDialog("Empty Map", "The height and/or width = 0", "Coolio");
             return ;
         }
+        GenerationMap.AttachTiles();
+        CreatePaths.AttachTiles(GetCurrentBiomeTileSet().Road, GetCurrentBiomeTileSet().Shallows, GetCurrentBiomeTileSet().Water);
 
         //Reset map
         GenerationMap.CreateEmptyMap(Width);
@@ -149,7 +151,7 @@ public class GenerationManager : MonoBehaviour {
 
     private void GeneratePlains()
     {
-        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome));
+        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, GetCurrentBiomeTileSet().GroundTiles);
         ForestGenerator.GenerateTreesForForest(GenerationMap);
 
         //Creating Rivers
@@ -197,19 +199,19 @@ public class GenerationManager : MonoBehaviour {
                     //X 4 X
 
                     case 0:
-                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), GetCurrentBiomeTileSet().Water);
                         break;
                     case 1:
-                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), GetCurrentBiomeTileSet().Water);
                         break;
                     case 2:
-                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), GetCurrentBiomeTileSet().Water);
                         break;
                     case 3:
-                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), GetCurrentBiomeTileSet().Water);
                         break;
                     default:
-                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                        NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), GetCurrentBiomeTileSet().Water);
                         break;
 
                 }
@@ -227,19 +229,19 @@ public class GenerationManager : MonoBehaviour {
         switch (Width)
         {
             case 72:
-                DifferentSizeIslands.GenerateTinyIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
+                DifferentSizeIslands.GenerateTinyIslands(GenerationMap, GetCurrentBiomeTileSet().GroundTiles[0]);
                 break;
             case 96:
-                DifferentSizeIslands.GenerateSmallIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
+                DifferentSizeIslands.GenerateSmallIslands(GenerationMap, GetCurrentBiomeTileSet().GroundTiles[0]);
                 break;
             case 120:
-                DifferentSizeIslands.GenerateMediumIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
+                DifferentSizeIslands.GenerateMediumIslands(GenerationMap, GetCurrentBiomeTileSet().GroundTiles[0]);
                 break;
             case 144:
-                DifferentSizeIslands.GenerateLargeIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
+                DifferentSizeIslands.GenerateLargeIslands(GenerationMap, GetCurrentBiomeTileSet().GroundTiles[0]);
                 break;
             case 200:
-                DifferentSizeIslands.GenerateHugeIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
+                DifferentSizeIslands.GenerateHugeIslands(GenerationMap, GetCurrentBiomeTileSet().GroundTiles[0]);
                 break;
             //case 255:
             //    DifferentSizeIslands.GenerateGiganticIslands(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome)[0]);
@@ -249,16 +251,16 @@ public class GenerationManager : MonoBehaviour {
         }
        
         ForestGenerator.GenerateTreesForForest(GenerationMap);
-        GenerationMap.FillEmptySpaceWithTile(tilePool.GetWaterTile());
+        GenerationMap.FillEmptySpaceWithTile(GetCurrentBiomeTileSet().Water);
     }
     private void GenerateCostal()
     {
-        NoiseRiver.AttachMap(GenerationMap, tilePool.GetWaterTile());
-        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, tilePool.GetTileSetFromBiomeType(SelectedMapBiome));
+        NoiseRiver.AttachMap(GenerationMap, GetCurrentBiomeTileSet().Water);
+        NoiseGroundTiles.GenerateGroundTiles(GenerationMap, GetCurrentBiomeTileSet().GroundTiles);
         ForestGenerator.GenerateTreesForForest(GenerationMap);
 
 
-        int coastLineSide = CoastLineGenerator.GenerateCoastline(GenerationMap, tilePool.GetWaterTile());
+        int coastLineSide = CoastLineGenerator.GenerateCoastline(GenerationMap, GetCurrentBiomeTileSet().Water);
         //X 0 X
         //1 X 3
         //X 2 X
@@ -270,19 +272,19 @@ public class GenerationManager : MonoBehaviour {
             switch (coastLineSide)
             {                
                 case 0:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), tilePool.GetWaterTile());                    
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), GetCurrentBiomeTileSet().Water);                    
                     break;
                 case 1:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), tilePool.GetWaterTile());
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(0, riverStartPoint), GetCurrentBiomeTileSet().Water);
                     break;
                 case 2:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), tilePool.GetWaterTile());
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, Height), GetCurrentBiomeTileSet().Water);
                     break;
                 case 3:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), tilePool.GetWaterTile());                   
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(Width, riverStartPoint), GetCurrentBiomeTileSet().Water);                   
                     break;
                 default:
-                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), tilePool.GetWaterTile());
+                    NoiseRiver.BuildRiverFromMapEdge(GenerationMap, new MapPoint(riverStartPoint, 0), GetCurrentBiomeTileSet().Water);
                     break;
 
             }
@@ -364,7 +366,7 @@ public class GenerationManager : MonoBehaviour {
 
                 if ((distX * distX) + (distY * distY) > minLength)
                 {
-                    if (GenerationMap.GetTileAtPos(new MapPoint(startX, startY)) != tilePool.GetWaterTile() && GenerationMap.GetTileAtPos(new MapPoint(endX, endY)) != tilePool.GetWaterTile())
+                    if (GenerationMap.GetTileAtPos(new MapPoint(startX, startY)) != GetCurrentBiomeTileSet().Water && GenerationMap.GetTileAtPos(new MapPoint(endX, endY)) != GetCurrentBiomeTileSet().Water)
                     {
                         newStartAndEnd = false;
                     }
@@ -463,5 +465,9 @@ public class GenerationManager : MonoBehaviour {
                     //    break;
             }
         }
+    }
+    public BiomeTileSet GetCurrentBiomeTileSet()
+    {
+        return tilePool.GetBiomeTileSetFromBiomeType(SelectedMapBiome);
     }
 }

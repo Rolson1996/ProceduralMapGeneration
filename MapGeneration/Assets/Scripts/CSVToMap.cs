@@ -44,11 +44,23 @@ public class CSVToMap
         generationMap.CreateEmptyMap(mapInStrings.Count);
         GenerationManager.instance.forestGenerator.DestroyOldTrees();
 
-        Tile groundTile = GenerationManager.instance.tilePool.GetTileSetFromBiomeType(biomeType)[0];
-        Tile groundTile2 = GenerationManager.instance.tilePool.GetTileSetFromBiomeType(biomeType)[1];
-        Tile waterTile = GenerationManager.instance.tilePool.GetWaterTile();
-        Tile roadTile = GenerationManager.instance.tilePool.GetRoadTile();
-        Tile shallowsTile = GenerationManager.instance.tilePool.GetShallowsTile();
+        BiomeTileSet biome = GenerationManager.instance.GetCurrentBiomeTileSet();
+
+        Tile waterTile = biome.Water;
+        Tile shallowsTile = biome.Shallows;
+        Tile roadTile = biome.Road;
+
+        Tile groundTile = biome.GroundTiles[0];
+        Tile groundTile2 = null;
+        Tile groundTile3 = null;
+        if (biome.GroundTiles.Length > 1)
+        {
+            groundTile2 = biome.GroundTiles[1];
+        }
+        if (biome.GroundTiles.Length > 2)
+        {
+            groundTile3 = biome.GroundTiles[2];
+        }
 
         int y = mapInStrings.Count - 1;
         foreach(string[] row in mapInStrings)
@@ -61,7 +73,11 @@ public class CSVToMap
                 {
                     generationMap.AddTile(groundTile, mp);
                 }
-                else if (mapTile == "G2")
+                else if (mapTile == "2G")
+                {
+                    generationMap.AddTile(groundTile2, mp);
+                }
+                else if (mapTile == "3G")
                 {
                     generationMap.AddTile(groundTile2, mp);
                 }
@@ -83,7 +99,6 @@ public class CSVToMap
                     generationMap.AddTile(roadTile, mp);
                 }
                 x++;
-
             }
             y--;
         }

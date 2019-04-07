@@ -10,10 +10,21 @@ public class MapToCSV
 
     public static string[] WriteMapToStringArrays(GameMap _mapToSave)
     {
-        Tile waterTile = GenerationManager.instance.tilePool.GetWaterTile();
-        Tile shallowsTile = GenerationManager.instance.tilePool.GetShallowsTile();
-        Tile roadTile = GenerationManager.instance.tilePool.GetRoadTile();
-        Tile secondGround = GenerationManager.instance.tilePool.GetTileSetFromBiomeType(GenerationManager.instance.SelectedMapBiome)[1];
+        BiomeTileSet biome = GenerationManager.instance.GetCurrentBiomeTileSet();
+
+        Tile waterTile = biome.Water;
+        Tile shallowsTile = biome.Shallows;
+        Tile roadTile = biome.Road;
+        Tile groundTile2 = null;
+        Tile groundTile3 = null;
+        if (biome.GroundTiles.Length > 1)
+        {
+            groundTile2 = biome.GroundTiles[1];
+        }
+        if (biome.GroundTiles.Length > 2)
+        {
+            groundTile3 = biome.GroundTiles[2];
+        }
 
         string[] mapRows = new string[GenerationManager.instance.Width];
         int i = 0;
@@ -25,8 +36,7 @@ public class MapToCSV
             while (x < GenerationManager.instance.Width)
             {
                 MapPoint mp = new MapPoint(x, y);
-
-                
+             
                 if(_mapToSave.GetTileAtPos(mp) == waterTile)
                 {
                     row = row + "W";
@@ -43,9 +53,13 @@ public class MapToCSV
                 {
                     row = row + "T";
                 }
-                else if (_mapToSave.GetTileAtPos(mp) == secondGround)
+                else if (_mapToSave.GetTileAtPos(mp) == groundTile2)
                 {
-                    row = row + "G2";
+                    row = row + "2G";
+                }
+                else if (_mapToSave.GetTileAtPos(mp) == groundTile3)
+                {
+                    row = row + "3G";
                 }
                 else
                 {

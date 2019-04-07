@@ -6,7 +6,12 @@ using UnityEngine;
 public enum MapBiome
 {
     Grass,
-    Snow
+    Snow,
+    Desert,
+    Mont1,
+    ElCid5,
+    Vindsaga,
+    Saladin1
 }
 
 public enum MapTypeX
