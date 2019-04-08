@@ -44,11 +44,14 @@ public class CSVToMap
         generationMap.CreateEmptyMap(mapInStrings.Count);
         GenerationManager.instance.forestGenerator.DestroyOldTrees();
 
-        BiomeTileSet biome = GenerationManager.instance.GetCurrentBiomeTileSet();
+        BiomeTileSet biome = GenerationManager.instance.tilePool.GetBiomeTileSetFromBiomeType(biomeType);
+        GenerationManager.instance.SelectedMapBiome = biomeType;
+
 
         Tile waterTile = biome.Water;
         Tile shallowsTile = biome.Shallows;
         Tile roadTile = biome.Road;
+        Tile iceTile = biome.Ice;
 
         Tile groundTile = biome.GroundTiles[0];
         Tile groundTile2 = null;
@@ -73,13 +76,13 @@ public class CSVToMap
                 {
                     generationMap.AddTile(groundTile, mp);
                 }
-                else if (mapTile == "2G")
+                else if (mapTile == "2G" || mapTile == "G2")
                 {
                     generationMap.AddTile(groundTile2, mp);
                 }
                 else if (mapTile == "3G")
                 {
-                    generationMap.AddTile(groundTile2, mp);
+                    generationMap.AddTile(groundTile3, mp);
                 }
                 else if (mapTile == "T")
                 {
@@ -97,6 +100,10 @@ public class CSVToMap
                 else if (mapTile == "R")
                 {
                     generationMap.AddTile(roadTile, mp);
+                }
+                else if (mapTile == "I")
+                {
+                    generationMap.AddTile(iceTile, mp);
                 }
                 x++;
             }

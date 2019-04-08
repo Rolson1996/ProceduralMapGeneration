@@ -55,9 +55,9 @@ public class TilePool : MonoBehaviour
 
         TileSet_Snow = new BiomeTileSet();
         Tile[] Snow_GTiles = new Tile[3];
-        Snow_GTiles[0] = SnowDustTile;
+        Snow_GTiles[0] = SnowTile;
         Snow_GTiles[1] = SnowGrassTile;
-        Snow_GTiles[3] = SnowDustTile;
+        Snow_GTiles[2] = SnowDustTile;
 
         TileSet_Snow.GroundTiles = Snow_GTiles;
         TileSet_Snow.Sand = IceTile;
@@ -116,6 +116,7 @@ public class TilePool : MonoBehaviour
         TileSet_VindSaga.Water = WaterTile;
         TileSet_VindSaga.Road = RoadTile;
         TileSet_VindSaga.Shallows = IceTile;
+        TileSet_VindSaga.Ice = IceTile;
 
         ////////////////////////////////////
 

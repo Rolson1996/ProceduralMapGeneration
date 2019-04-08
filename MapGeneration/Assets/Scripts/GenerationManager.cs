@@ -96,7 +96,7 @@ public class GenerationManager : MonoBehaviour {
     {
         if (Height <= 0 || Width <= 0)
         {
-            EditorUtility.DisplayDialog("Empty Map", "The height and/or width = 0", "Coolio");
+            //EditorUtility.DisplayDialog("Empty Map", "The height and/or width = 0", "Coolio");
             return ;
         }
         GenerationMap.AttachTiles();

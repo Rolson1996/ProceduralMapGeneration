@@ -10,7 +10,9 @@ public class HandleUI : MonoBehaviour
     public GameObject MapTypeDropdownLabel;
     public GameObject RiversToggle;
     public GameObject PathsToggle;
+    public GameObject TestingMapLabel;
 
+    private Text TestingMapText;
 
     public GameObject SavedMapToLoadInput;
     private Text SavedMapToLoadText;
@@ -28,6 +30,7 @@ public class HandleUI : MonoBehaviour
         MapTypeText = MapTypeDropdownLabel.GetComponent<Text>();
         UIClicked = GameObject.FindGameObjectWithTag("TileMap").GetComponent<MapClicks>();
         SavedMapToLoadText = SavedMapToLoadInput.GetComponent<Text>();
+        TestingMapText = TestingMapLabel.GetComponent<Text>();
     }
 
     public void GenerateButtonClick(GameObject _generatingText)
@@ -125,8 +128,8 @@ public class HandleUI : MonoBehaviour
     {
         try
         {
-            List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map" + SavedMapToLoadText.text + ".csv");
-            CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+            List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map4.csv");
+            CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Desert);
         }
         catch
         {
@@ -146,58 +149,58 @@ public class HandleUI : MonoBehaviour
     {
         // Show which map is being shown
 
-
+        TestingMapText.text = TestingMap;
 
         if (TestingMap[0] == '1')
         {
-            if (TestingMap[2] == '1')
+            if (TestingMap[1] == 'A')
             {
-                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map0.csv");
+                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/MapMont.csv");
                 CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
             }
-            else if (TestingMap[2] == '2')
+            else if (TestingMap[1] == 'B')
             {
                 List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/MapCSV's/Montazuma 1 Map Data.csv");
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Mont1);
             }
         }
         else if (TestingMap[0] == '2')
         {
-            if (TestingMap[2] == '1')
+            if (TestingMap[1] == 'A')
             {
                 List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/MapCSV's/Vindlandsaga Map Data.csv");              
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Vindsaga);
             }
-            else if (TestingMap[2] == '2')
+            else if (TestingMap[1] == 'B')
             {
-                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map0.csv");
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/MapVind.csv");
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Snow);
             }
         }
         else if (TestingMap[0] == '3')
         {
-            if (TestingMap[2] == '1')
+            if (TestingMap[1] == 'A')
             {
                 List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/MapCSV's/Saladin 1 Map Data.csv");               
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Saladin1);
             }
-            else if (TestingMap[2] == '2')
+            else if (TestingMap[1] == 'B')
             {
-                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map0.csv");
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/MapSal.csv");
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Desert);
             }
         }
         else if (TestingMap[0] == '4')
         {
-            if (TestingMap[2] == '1')
+            if (TestingMap[1] == 'A')
             {
-                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/Map0.csv");
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/SavedMaps/MapElCid.csv");
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Desert);
             }
-            else if (TestingMap[2] == '2')
+            else if (TestingMap[1] == 'B')
             {
                 List<string[]> listOfStringRows = HandleCSVFile.ReadCSVToListOfStringArrays(Application.dataPath + "/MapCSV's/El Cid 5 Map Data.csv");
-                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.Grass);
+                CSVToMap.BuildMapFromStringArrayList(listOfStringRows, MapBiome.ElCid5);
             }
         }      
     }

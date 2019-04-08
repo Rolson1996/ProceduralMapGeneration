@@ -111,6 +111,8 @@ public class GameMap : MonoBehaviour
 
     public void ApplySandNextToWater()
     {
+        AttachTiles();
+
         List<MapPoint> tileToAddSand = new List<MapPoint>();
         
         foreach (KeyValuePair<MapPoint, Tile> entry in MapDictionary)
