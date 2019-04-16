@@ -65,10 +65,12 @@ public class NoiseRiver
 
     private static StartRiverMidMap? GenerateSineSection(MapPoint _startPoint, bool _endAtEdge = true)
     {
-        float curveStrech = UnityEngine.Random.Range(1F, 4F); //
+        float curveAmplitude = UnityEngine.Random.Range(1F, 4F); //
         float curveFrequency = 7F;
+
         int randomCurveEnd = Mathf.FloorToInt(GenerationManager.instance.Width * UnityEngine.Random.Range(0.4F, 0.8F));
-        float randomStartPoint = UnityEngine.Random.Range(-180, 180);
+
+        float randomSineStartPoint = UnityEngine.Random.Range(-180, 180);
         int progress = 1;
 
         int thick = 2;
@@ -103,11 +105,11 @@ public class NoiseRiver
 
         while (progress < GenerationManager.instance.Width)
         {
-            float pointInDegrees = (locationTrack + randomStartPoint); //y = sin(x)
+            float pointInDegrees = (locationTrack + randomSineStartPoint); //y = sin(x)
 
             float xWithFreq = pointInDegrees / curveFrequency;
             float holdSinX = Mathf.Sin(xWithFreq);       
-            int sineHeight = Mathf.RoundToInt(holdSinX * curveStrech /2); //SineHeight is Y in y = sin(x)
+            int sineHeight = Mathf.RoundToInt(holdSinX * curveAmplitude / 2); //SineHeight is Y in y = sin(x)
             //int sineHeight = Mathf.RoundToInt(holdSinX * curveStrech * (curveStrech / curveFrequency)); //SineHeight is Y in y = sin(x)
 
 
