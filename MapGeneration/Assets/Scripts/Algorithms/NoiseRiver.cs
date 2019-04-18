@@ -41,7 +41,7 @@ public class NoiseRiver
                 //Debug.Log("Sine -> Not Edge");
                 break;
             case 2: // Sine -> Straight
-                StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, true);
+                StartRiverMidMap? SineEndPoint = GenerateSineSection(_point, false);
                 if (SineEndPoint != null)
                 {
                     GenerateStraightSection(SineEndPoint.Value.startPoint, true, SineEndPoint.Value.xDirection, SineEndPoint.Value.yDirection);
