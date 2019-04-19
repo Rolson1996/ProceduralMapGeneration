@@ -104,7 +104,7 @@ public class GenerationManager : MonoBehaviour {
 
         //Reset map
         GenerationMap.CreateEmptyMap(Width);
-        forestGenerator.DestroyOldTrees();
+        forestGenerator.ResetTrees();
 
         switch (SelectedMapTypeX)
         {

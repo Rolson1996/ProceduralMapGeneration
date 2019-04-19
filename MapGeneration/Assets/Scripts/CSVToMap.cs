@@ -42,7 +42,7 @@ public class CSVToMap
 
 
         generationMap.CreateEmptyMap(mapInStrings.Count);
-        GenerationManager.instance.forestGenerator.DestroyOldTrees();
+        GenerationManager.instance.forestGenerator.ResetTrees();
 
         BiomeTileSet biome = GenerationManager.instance.tilePool.GetBiomeTileSetFromBiomeType(biomeType);
         GenerationManager.instance.SelectedMapBiome = biomeType;

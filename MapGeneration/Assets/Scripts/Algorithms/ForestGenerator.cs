@@ -73,29 +73,9 @@ public class ForestGenerator : MonoBehaviour
         }
     }
 
-    public void DestroyOldTrees()
+    public void ResetTrees()
     {
-        //int i = 0;
-        //Debug.Log(transform.childCount);
-        ////Array to hold all child obj
-        //GameObject[] allChildren = new GameObject[transform.childCount];
-
-        ////Find all child obj and store to that array
-        //foreach (Transform child in transform)
-        //{
-        //    allChildren[i] = child.gameObject;
-        //    i += 1;
-        //}
-
-        ////Now destroy them
-        //foreach (GameObject child in allChildren)
-        //{
-        //    DestroyImmediate(child.gameObject);
-        //}
-
-
-        //Debug.Log(transform.childCount);
-
+ 
         foreach (Transform child in transform)
         {
             child.localPosition = new Vector3 (-99F,-99F,-1F);
