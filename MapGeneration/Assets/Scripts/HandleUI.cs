@@ -35,7 +35,6 @@ public class HandleUI : MonoBehaviour
 
     public void GenerateButtonClick(GameObject _generatingText)
     {
-        var test = Time.time;
         GenerationManager.instance.Height = MapSize;
         GenerationManager.instance.Width = MapSize;
         GenerationManager.instance.HasRivers = RiversToggle.GetComponent<Toggle>().isOn;
@@ -66,13 +65,7 @@ public class HandleUI : MonoBehaviour
                 break;
         }
 
-        _generatingText.SetActive(true);
-        Canvas.ForceUpdateCanvases();
         GenerationManager.instance.StartGenerationProcess();
-        _generatingText.SetActive(false);
-
-        var test2 = Time.time;
-
     }
 
     public void SelectBiome()
@@ -113,9 +106,21 @@ public class HandleUI : MonoBehaviour
         }
     }
 
+    public void ToggleRivers(bool active)
+    {
+        GenerationManager.instance.HasRivers = active;
+    }
+    public void TogglePaths(bool active)
+    {
+        GenerationManager.instance.HasPaths = active;
+    }
+
     public void SetSize(int _size)
     {
-        MapSize = _size;      
+        MapSize = _size;
+
+        GenerationManager.instance.Height = MapSize;
+        GenerationManager.instance.Width = MapSize;
     }
 
     public void LoadFile()

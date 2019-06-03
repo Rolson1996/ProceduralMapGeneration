@@ -15,10 +15,10 @@ public class GenerationManager : MonoBehaviour {
     private Camera topDownCam;
     private bool showWholeMap = false;
 
-    public int Height = 10;
-    public int Width = 10;
-    public bool HasRivers = false;
-    public bool HasPaths = false;
+    public int Height = 0;
+    public int Width = 0;
+    public bool HasRivers = true;
+    public bool HasPaths = true;
 
     private GameMap GenerationMap;
 
@@ -31,6 +31,12 @@ public class GenerationManager : MonoBehaviour {
     public Canvas canvas;
     public Canvas testingPhaseCanvas;
 
+
+    private bool readyToGen = false;
+    private bool autoGenActive = false;
+
+    public GameObject GeneratingObject;
+    private DateTime lastGenTime;
 
     // Use this for initialization
     void Awake ()
@@ -91,6 +97,31 @@ public class GenerationManager : MonoBehaviour {
             canvas.enabled = !canvas.enabled;
             testingPhaseCanvas.enabled = !testingPhaseCanvas.enabled;
         }
+
+        if (autoGenActive)
+        {
+            if (readyToGen)
+            {
+                if (Height <= 0 || Width <= 0)
+                {
+                    Height = 72;
+                    Width = 72;
+                }
+
+                StartGenerationProcess();
+                MoveGamePlayCam();
+                lastGenTime = DateTime.Now;
+                readyToGen = false;
+                GeneratingObject.SetActive(false);
+            }
+            if (lastGenTime.AddSeconds(10) <= DateTime.Now)
+            {
+                readyToGen = true;
+                GeneratingObject.SetActive(true);
+            }
+        }
+
+
     }
     public void StartGenerationProcess()
     {
@@ -469,5 +500,11 @@ public class GenerationManager : MonoBehaviour {
     public BiomeTileSet GetCurrentBiomeTileSet()
     {
         return tilePool.GetBiomeTileSetFromBiomeType(SelectedMapBiome);
+    }
+
+    public void ToggleAutoGen(bool active)
+    {
+        autoGenActive = active;
+        lastGenTime = DateTime.Now;
     }
 }
